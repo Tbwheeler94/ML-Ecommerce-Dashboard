@@ -4,12 +4,12 @@
 
 Improving predictions of customer behavior online can have a substantial impact on business and marketing strategy for ecommerce companies. This project uses a dataset from Brazilian e-commerce company Olist to explore 2 potentially consequential predictions: 
 
-(1) Will a customer make a repeat purchase?
+(1) Will a customer make a repeat purchase? \n
 (2) Will a customer's review be positive or negative based on the product listing?
 
 To develop predictions we trained our dataset on using 2 machine-learning algorithms:
 
-(1) Logisitic regression
+(1) Logisitic regression \n
 (2) Random forest classification
 
 This dashboard allows the user to explore the algorithms' predictions by allowing the user to adjust input parameters and see how the prediction changes. Ultimately these models help the user better understand what factors have the most impact on customer decision-making.
