@@ -31,7 +31,7 @@ Parameters:
 
 Analysis method: logistic regression
 
-[](https://github.com/Tbwheeler94/ML-Ecommerce-Dashboard/blob/main/readme_gifs/repeat_purchase.gif)
+![](https://github.com/Tbwheeler94/ML-Ecommerce-Dashboard/blob/main/readme_gifs/repeat_purchase.gif)
 
 ### Q2: Will the customer leave a positive or negative review?
 
@@ -45,7 +45,7 @@ Parameters:
 
 Analysis method: random forest classification
 
-[](https://github.com/Tbwheeler94/ML-Ecommerce-Dashboard/blob/main/readme_gifs/predict_review.gif)
+![](https://github.com/Tbwheeler94/ML-Ecommerce-Dashboard/blob/main/readme_gifs/predict_review.gif)
 
 ## Data Source
 
