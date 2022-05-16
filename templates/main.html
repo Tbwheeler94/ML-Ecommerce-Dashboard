@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <title>Customer Satisfaction Prediction Model</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Lazuli - Leverage Your Data</title>
+    
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+
+          <!-- CSS only -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+        <!-- JS, Popper.js, and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Open+Sans+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    
+    <!-- Nav Bar -->
+<nav class="navbar navbar-md navbar-dark bg-dark">
+    <img src="static/Lazuli.png" width="150" height="60">
+      <ul class="nav navbar-right">
+          <li class="nav-item">
+              <a class="nav-link active" href="landing-page.html">Home</a>
+            </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="about.html">About</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Features</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="main.html">Customer Review Interface</a>
+              <a class="dropdown-item" href="repeat-customer.html">Repeat Customer Interface</a>
+            </div>
+          </li>
+          <!--start code dropdown-->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="margin-right: 150px;" href="tutorial.html" role="button" aria-haspopup="true" aria-expanded="false">Code</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="tutorial.html">Customer Review ML Model</a>
+            <a class="dropdown-item" href="repeat-cust-tutorial.html">Repeat Customer ML Model</a>
+            <a class="dropdown-item" href="recommender-tutorial.html">Recommender ML Model</a>
+          </div>
+        </li>
+        <!--end code dropdown-->
+        </ul>
+  </nav>
+
+<form action="{{ url_for('main') }}" method="POST" style='margin-top: 50px;'>
+    <fieldset>
+        <legend>Predict Your Customer's Review</legend>
+        <br>
+        Product Description Length:
+        <br>
+        <input name="product_description_lenght" type="number" class="form-control" required placeholder="4 - 3992 Words">
+        <br>
+        <br> Quantity of Photos:
+        <br>
+        <input name="product_photos_qty" type="number" class="form-control" id="product-qty" required placeholder="1 - 20 Photos">
+        <br>
+        <br> Is it Late?:
+        <br>
+        <br>
+        <div class="radio">
+          <label><input type="radio" name="Is_It_Late" value = "1" checked>No</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="Is_It_Late" value = "2">Yes</label>
+        </div>
+        <br>
+        <br> Payment Type:
+        <br>
+        <br>
+        <div class="radio">
+          <label><input type="radio" name="Payment_Type" value = "0" checked>Credit Card</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="Payment_Type" value = "1">Boleto</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="Payment_Type" value = "2">Debit Card</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="Is_It_Late" value = "3">Voucher</label>
+        </div>
+        <br>
+        <br> Total Order Value ($6 - $6929):
+        <br>
+        <input name="Total_Order_Value" type="number" class="form-control" required placeholder="$6 - $6929">
+        <br>
+        <input type="submit" id="predict" onchange="optionChanged()" value="Predict Customer Review!">
+    </fieldset>
+</form>
+<br>
+
+    <h3 class="result" id="output" style="font-size:50px; text-align: center; color: white;">{{ result }}</h3>
+
+</body>
+
+<!-- Read in JS converts output to "Positive" or "Negative" -->
+<script src="/static/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+
+
+</html>

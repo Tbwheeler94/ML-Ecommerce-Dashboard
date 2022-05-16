@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lazuli - Leverage Your Data</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+      <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Open+Sans+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+    <!-- starting style -->
+    <style>
+      .codebox {
+       /* Below are styles for the codebox (not the code itself) */
+       border:1px black;
+       background-color: #EAEBEC;
+       width:900px;
+       overflow:auto;    
+       padding-top:15px;
+       padding-bottom: 1px; 
+   }
+   .codebox code {
+       /* Styles in here affect the text of the codebox */
+       font-size:1.2em;
+       font-family: Courier New Lucida Console;
+       color: black;
+       /* You could also put all sorts of styling here, like different font, color, underline, etc. for the code. */
+   }
+   .title {
+     padding-top: 30px;
+     padding-right: 30px;
+     padding-bottom: 30px;
+     padding-left: 80px;
+   }
+   div.container {
+     padding-top: 30px;
+     padding-right: 100px;
+     padding-bottom: 30px;
+     padding-left: 100px;
+     }
+   body {
+   background-image: none;
+   background-color: #cccccc;
+}
+   </style>
+   <!-- ending style -->
+</head>
+<body>
+<!-- Nav Bar -->
+<nav class="navbar navbar-md navbar-dark bg-dark">
+  <img src="static/Lazuli.png" width="150" height="60">
+    <ul class="nav navbar-right">
+        <li class="nav-item">
+            <a class="nav-link active" href="landing-page.html">Home</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="about.html">About</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Features</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="main.html">Customer Review Interface</a>
+            <a class="dropdown-item" href="repeat-customer.html">Repeat Customer Interface</a>
+          </div>
+        </li>
+        <!--start code dropdown-->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="margin-right: 150px;" data-toggle="dropdown" href="tutorial.html" role="button" aria-haspopup="true" aria-expanded="false">Code</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="tutorial.html">Customer Review ML Model</a>
+            <a class="dropdown-item" href="repeat-cust-tutorial.html">Repeat Customer ML Model</a>
+            <a class="dropdown-item" href="recommender-tutorial.html">Recommender ML Model</a>
+          </div>
+        </li>
+        <!--end code dropdown-->
+      </ul>
+</nav>
+<!-- start title -->
+<div class="title">
+  <div class="row justify-content-md-center">
+      <div class ="col col-lg-auto">
+          <h1><b>Predicting Repeat Customers with Logistic Regression</b></h1>
+      </div>
+  </div>
+</div>
+<!-- end title -->
+<!-- start banner div -->
+<div class="container">
+<div class="row justify-content-md-center">
+  <div class ="col col-lg-auto"></div>
+      <img src="static/styles/images/repeat-cust.jpeg" class="img-fluid" alt="machine learning">
+  </div>
+</div>
+</div>
+<!-- end banner div-->
+<!-- start content-->
+<!-- part 1 div container-->
+<div class="container">
+
+  <h2>Part 1: Pre-processing the Data</h2>
+    <p>Before begining to train models we should transform our data in a way that can be fed into a Machine Learning model. 
+      Our most used techniques are:
+    </p>
+
+    <h4>1.1 Dropping Rows With Null Values</h4>
+    <p>[In]:</p>
+  <!-- codebox div-->
+    <div class="codebox">
+      <pre>
+        <code>
+          file_cust = file_cust.dropna()
+          file_geo = file_geo.dropna()
+          file_items = file_items.dropna()
+          file_payments = file_payments.dropna()
+          file_reviews = file_reviews.dropna()
+          file_orders = file_orders.dropna()
+          file_products = file_products.dropna()
+          file_sellers = file_sellers.dropna()
+          file_category = file_category.dropna()
+          </code>
+      </pre>
+    </div>
+    <br>
+    <h4>1.2 Merging Dataframes</h4>
+    <p>[In]:</p>
+    <div class="codebox">
+      <pre>
+        <code>
+          data = file_orders.merge(file_items, on='order_id',how='left')
+          data = data.merge(file_payments, on='order_id',how='outer',validate='m:m')
+          data = data.merge(file_reviews, on='order_id',how='outer')
+          data = data.merge(file_products,on='product_id',how='outer')
+          data = data.merge(file_cust,on='customer_id',how='outer')
+          data = data.merge(file_sellers, on='seller_id',how='outer')
+          data = data.merge(file_category, on='product_category_name',how='outer')
+          </code>
+      </pre>
+    </div>
+      <br>
+    <h4>1.3 Convert Data Type</h4>
+        <p>
+          In order to work with a data that would be conducive to our desired outcome, we converted all
+          columns that include date and time information into datetime format using pd.to_datetime on 
+          those columns.
+        </p>
+        <p>[In]:</p>
+    <div class="codebox">
+      <pre>
+        <code>
+          data['order_purchase_timestamp'] = pd.to_datetime(data['order_purchase_timestamp'])
+          data['order_approved_at'] = pd.to_datetime(data['order_approved_at'])
+          data['order_delivered_carrier_date'] = pd.to_datetime(data['order_delivered_carrier_date'])
+          data['order_delivered_customer_date'] = pd.to_datetime(data['order_delivered_customer_date'])
+          data['order_estimated_delivery_date'] = pd.to_datetime(data['order_estimated_delivery_date'])
+          data['shipping_limit_date'] = pd.to_datetime(data['shipping_limit_date'])
+          data['review_creation_date'] = pd.to_datetime(data['review_creation_date'])
+          data['review_answer_timestamp'] = pd.to_datetime(data['review_answer_timestamp'])
+          </code>
+      </pre>
+    </div>
+        <br>
+    <h4>1.4 Defining Repeat Customers in the Data</h4>
+          <p>
+            In order to define repeat customers, we need to create a new dataframe with each unique
+            customer and their total number of purchases. Then we extract the unique customer id's of the
+            customers who made more than one purchase and store them as an array. The last step is to 
+            create a new column with our working dataframe that identifies repeat and non-repeat customers
+            by assigning a "1" for customers not in the repeat array and a "2" to customers in the repeat 
+            array. We will use this new column as the dependent variable, or "y" variable, to insert into 
+            the model. 
+          </p>
+          <p>[In]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+              df = unique_orders['customer_unique_id'].value_counts().rename_axis('unique_values').reset_index(name='counts')
+
+              df1 = df.loc[df['counts'] > 1]
+
+              repeat_list = df1['unique_values'].tolist()
+
+              data["repeat?"] = np.where(data["customer_unique_id"].isin(repeat_list), 2, 1)
+              
+            </code>
+          </pre>
+        </div>
+        <br>
+    <h4>1.5 Creating New, Potentially Useful Columns</h4>
+          <p>
+            Often, it may take some manipulation to create useful fields in a dataset. In the code below we are 
+            using provided datetime data to deduct metrics like 'days to delivery', a variance for the received 
+            date versus the estimate ('delivery_days b/(w)''), as well as a binary indicator of whether it was 
+            late or not (essentially taking away the weighting for how late or early the order was received). 
+            We are choosing these metrics because intuitively they make sense and overall we are trying to cast 
+            a wide net to see what correlates best with the repeat customer field.  
+          </p>
+          <p>[In]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+              # The difference between the estimated and actual delivery dates will tell us how late or early the order is. 
+              data['delivery_time b/(w)'] = data['order_estimated_delivery_date'] - data['order_delivered_customer_date']
+              data['delivery_days b/(w)'] = data['delivery_time b/(w)'].apply(lambda x: x.days)
+
+              # This measures total wait time for the customer, from the time of purchase. 
+              data['time_to_delivery'] = data['order_purchase_timestamp'] - data['order_delivered_customer_date']
+              data['days_to_delivery'] = data['time_to_delivery'].apply(lambda x: x.days)
+
+              # The boolean indicator of whether the shipment was late (0) or not (1). 
+              def is_late_func(x):
+                  if x>-1:
+                      return 1
+                  if x<0:
+                      return 0   
+              data['late'] = data['delivery_days b/(w)'].apply(is_late_func)
+            </code>
+          </pre>
+        </div>
+        <br>
+    <h4>1.6 Convert Data Types, Again</h4>
+          <p>
+            Paring down the dataframe and converting the newly calculated fields to the correct datatypes.   
+          </p>
+        <p>[In]:</p>
+      <div class="codebox">
+        <pre>
+          <code>
+            # Selecting the columns for which we want to test correlation. 
+            df_clean = first_order_df[['freight_value','payment_installments','payment_value','review_score',
+                      'days_to_delivery','delivery_days b/(w)','review_response_days','freight_percent','late',
+                      'repeat?']].copy()
+
+            # Drop NAs 
+            df_clean = df_clean.dropna()
+
+            # Converting datatypes as necessary
+            df_clean['payment_installments'] = df_clean['payment_installments'].astype('int')
+            df_clean['review_score'] = df_clean['review_score'].astype('int')
+            df_clean['delivery_days b/(w)'] = df_clean['delivery_days b/(w)'].astype('int')
+            df_clean['review_response_days'] = df_clean['review_response_days'].astype('int')
+            df_clean['late'] = df_clean['late'].astype('int')
+          </code>
+        </pre>
+      </div>
+          
+      
+    
+  <!-- end part 1 div container-->
+  <!-- part 2 div container-->
+  <br>
+    <h3>Part 2: Repeat Customer Model</h3>
+    <br>
+      <h4>2.1 Correlation Matrix</h4>
+        <p>
+          We trained a Logistic Regression model on the dataset to predict whether a customer
+          would make another purchase. To start, we ran a correlation matrix to determine the most 
+          correlated factors to whether the customer would repeat or not.
+          <br>
+          <br>
+          <img src="static/styles/images/repeat-cust-corr.png" class="img-fluid" alt="corr-matrix">
+          <br>
+          <br>
+          From this illustration we can train our model on these most correlated factors:
+          <li>
+            delivery_days b/(w)
+          </li>
+          <li>
+            days_to_delivery
+          </li>
+          <li>
+            late
+          </li>
+          <li>
+            review_score
+          </li>
+          </p>
+
+        <br>
+      <h4>2.2 Training the Model & Logistic Regression Model Results</h4>
+        <p>
+          To evaluate the effectiveness of our model we will make a train/test split of our data using
+          the conventional 20/80 ratio. We then fit the model with the train data and evaluate using
+          our test results. With a Model Score of .842, we can assume we will be able to predict 
+          whether or not someone will be a repeat customer with about 84% accuracy. More importantly, 
+          the results of the correlation matrix can inform the ecommerce retailer what they can improve 
+          and who they are more likely to be able to nudge into continuing to buy through the platform.
+        </p>
+        <br>
+        <img src="static/styles/images/classification-report.png" class="img-fluid" alt="classification-report">
+        <br>
+        <br>
+        <p>[In]:</p>
+      <div class="codebox">
+        <pre>
+          <code>
+            X = even_df[['delivery_days b/(w)','days_to_delivery','late','review_score']].values
+            y = even_df['repeat?'].values
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=28)
+            logisticModel = LogisticRegression()
+            logisticModel.fit(X_train,y_train)
+            prediction = logisticModel.predict(X_test)
+
+            from sklearn.metrics import classification_report
+            print(classification_report(y_test,prediction))
+            print("Model score:", accuracy_score(y_test, prediction))
+          </code>
+        </pre>
+      </div>
+      
+  <!-- End part 2 div container-->
+  <!-- part 3 div container-->
+  <br>
+    <h3>Part 3: Connect Model to Web App</h3>
+      <h4>3.1 Save the Model</h4>
+        <p>
+          Using pickle module in pandas, export model into a file to later connect with Flask app
+        </p>
+        <p>[In]:</p>
+      <div class="codebox">
+        <pre>
+          <code>
+            <b>import</b> pickle
+            with open('repeat_customer.pkl', 'wb') as file:
+            pickle.dump(logisticModel, file)
+          </code>
+        </pre>
+      </div>
+      <br>
+    <h4>3.2 Flask App Connect</h4>
+    <p>
+      Create app.py to load the model
+    </p>
+    <div class="codebox">
+      <pre>
+        <code>
+          # Set up the main route
+          @app.route('/repeat-customer.html', methods=['GET', 'POST'])
+            def repeat():
+              if flask.request.method == 'GET':
+              
+            # Just render the initial form, to get input
+            return(flask.render_template('repeat-customer.html'))
+            if flask.request.method == 'POST':
+              
+            # Extract the input
+            days_to_delivery = flask.request.form['days_to_delivery']
+            late = flask.request.form['late']
+            review_score = flask.request.form['review_score']
+
+            # Make DataFrame for model
+            input_variables2 = pd.DataFrame([[days_to_delivery, late, review_score]],
+                                columns=['days_to_delivery', 'late', 'review_score'],
+                                dtype=float,
+                                index=['input'])
+
+            # Get the model's prediction
+              prediction2 = model2.predict(input_variables2)[0]
+
+            # Convert Output to Text
+              if prediction2 > 1:
+                prediction2 = "Repeat Customer"
+              else:
+                prediction2 = "Will Not Purchase Again"
+
+            # Render the form again, but add in the prediction and remind user of the values they input before
+              return flask.render_template('repeat-customer.html',
+                                     original_input={'days_to_delivery':days_to_delivery,
+                                                     'late':late,
+                                                     'review_score':review_score},
+                                     result2=prediction2)
+        </code>
+      </pre>
+    </div>
+  <!-- End part 3 div container-->
+    </div>
+</div>
+
+
+</body>
+
+</html>

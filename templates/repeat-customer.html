@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <title>Customer Satisfaction Prediction Model</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Lazuli - Leverage Your Data</title>
+    
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+
+          <!-- CSS only -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+        <!-- JS, Popper.js, and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Open+Sans+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    
+    <!-- Nav Bar -->
+<nav class="navbar navbar-md navbar-dark bg-dark">
+    <img src="static/Lazuli.png" width="150" height="60">
+      <ul class="nav navbar-right">
+          <li class="nav-item">
+              <a class="nav-link active" href="landing-page.html">Home</a>
+            </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="about.html">About</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Features</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="main.html">Customer Review Interface</a>
+              <a class="dropdown-item" href="repeat-customer.html">Repeat Customer Interface</a>
+            </div>
+          </li>
+          <!--start code dropdown-->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="margin-right: 150px;" href="tutorial.html" role="button" aria-haspopup="true" aria-expanded="false">Code</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="tutorial.html">Customer Review ML Model</a>
+            <a class="dropdown-item" href="repeat-cust-tutorial.html">Repeat Customer ML Model</a>
+            <a class="dropdown-item" href="recommender-tutorial.html">Recommender ML Model</a>
+          </div>
+        </li>
+        <!--end code dropdown-->
+        </ul>
+  </nav>
+
+<form action="{{ url_for('repeat') }}" method="POST" style='margin-top: 50px;'>
+    <fieldset>
+        <legend>Predict If Your Customer Will Make a Repeat Purchase</legend>
+        <br>
+        How Many Total Delivery Days Were Required:
+        <br>
+        <input name="total_delivery_days" type="number" class="form-control" required placeholder="Actual Days Needed to Deliver Order">
+        <br>
+        <br>
+        How Many Days Early or Late Was The Order:
+        <br>
+        <input name="days_early_or_late" type="number" class="form-control" required placeholder="Negative Number = Late, Positive Number = Early">
+        <br>
+        <br> What Was The Customer's Review Score?:
+        <br>
+        <input name="review_score" type="number" class="form-control" id="product-qty" required placeholder="1 - 5">
+        <br>
+        <br> Was the Shipment Late?:
+        <br>
+        <div class="radio">
+          <label><input type="radio" name="late" value = "0" checked>Yes</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="late" value = "1">No</label>
+        </div>
+        <input type="submit" value="Predict If Customer Will Make Repeat Purchase!">
+    </fieldset>
+</form>
+<br>
+
+    <h3 class="result" id="output" style="font-size:50px; text-align: center; color: white;">{{ result2 }}</h3>
+
+</body>
+
+<!-- Read in JS converts output to "Positive" or "Negative" -->
+<script src="/static/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+
+
+</html>

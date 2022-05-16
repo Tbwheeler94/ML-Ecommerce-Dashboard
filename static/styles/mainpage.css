@@ -1,0 +1,182 @@
+body{
+    background-image: url(images/mountain2.jpg);
+    height:800px;
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+#intro {
+    position: relative;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    overflow-y: auto;
+    font-family: 'Amatic SC', cursive;
+    font-size: 80px;
+    padding-bottom: 75px;
+    padding-left: 75px;
+    padding-top: 60px;
+    box-sizing: unset;
+  }
+
+.topics{
+    padding-left: 100px;
+}
+
+#summary{
+    margin-bottom: 50px;
+    padding-top: 20px;
+    font-size: 25px;
+    color: whitesmoke;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: bold;
+}
+
+/* .image-container{
+    background-image: url(images/mountain1.jpg);
+    padding:200px 100px;
+    margin: 100px;
+} */
+
+.nav-link{
+    color: #fff;
+    font-family: 'Amatic SC', cursive;
+    font-size: xx-large;
+    text-decoration: none;
+}
+
+
+/*--------------------------------------------------------------
+# About this Project
+--------------------------------------------------------------*/
+.counts {
+    padding: 70px 0 70px;
+  }
+  
+.count-box {
+    margin-left: 75px;
+    margin-right: 100px;
+    width: 100%;
+    position: sticky;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .counts .count-box p {
+    padding: 5px;
+    margin: 0;
+    font-family: 'Amatic SC', cursive;
+    font-size: 25px;
+    color:black;
+    font-weight: bold;
+    background-color: black;
+    opacity: .8;
+    color: #bddbfc;
+  }
+  
+  .counts .count-box li {
+    padding: 0px;
+    margin: 5px;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    color:black;
+
+  }
+
+  /* *--------------------------------------------------------------
+# Sections General
+--------------------------------------------------------------*/ */
+section {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  top: 140px;
+  bottom: 100%;
+  opacity: 0;
+  transition: ease-in-out 0.4s;
+  z-index: 2;
+}
+
+section.section-show {
+  top: 100px;
+  bottom: auto;
+  /* opacity: 1; */
+  padding-bottom: 45px;
+}
+
+section .container {
+  /* background: rgba(0, 0, 0, 0.9); */
+  padding: 0px;
+}
+
+@media (max-width: 768px) {
+  section {
+    top: 120px;
+  }
+  section.section-show {
+    top: 80px;
+  }
+}
+
+.section-title h2 {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0;
+  line-height: 1px;
+  margin: 0 0 20px 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaaaaa;
+  font-family: "Poppins", sans-serif;
+
+}
+
+.section-title h2::after {
+  content: "";
+  width: 120px;
+  height: 1px;
+  display: inline-block;
+  background: #bddbfc;
+  margin: 4px 10px;
+  
+}
+
+.section-title p {
+  margin: 0;
+  margin: -15px 0 15px 0;
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+
+}
+
+.skills-container{
+    margin-top: 50px;
+    background-color: black;
+    opacity: .8;
+}
+
+.section-title1{
+    font-family: 'Amatic SC', cursive;
+    width: 100px;
+
+}
+
+ /* *--------------------------------------------------------------
+# Model 1: Customer Satisfaction | Styling
+--------------------------------------------------------------*/
+
+form {
+  margin: auto;
+  width: 35%;
+}
+.result h3 {
+  margin: auto;
+  width: 35%;
+  color: white;
+}
+  

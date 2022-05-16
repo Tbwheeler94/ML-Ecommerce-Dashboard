@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+​
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lazuli - Leverage Your Data</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+​
+      <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+​
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Open+Sans+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+    <style>
+       .codebox {
+        /* Below are styles for the codebox (not the code itself) */
+        border:1px black;
+        background-color: #EAEBEC;
+        width:900px;
+        overflow:auto;    
+        padding-top:15px;
+        padding-bottom: 1px; 
+    }
+    .codebox code {
+        /* Styles in here affect the text of the codebox */
+        font-size:1.2em;
+        font-family: Courier New Lucida Console;
+        color: black;
+        /* You could also put all sorts of styling here, like different font, color, underline, etc. for the code. */
+    }
+    .title {
+      padding-top: 30px;
+      padding-right: 30px;
+      padding-bottom: 30px;
+      padding-left: 80px;
+    }
+    div.container {
+      padding-top: 30px;
+      padding-right: 100px;
+      padding-bottom: 30px;
+      padding-left: 100px;
+      }
+    body {
+    background-image: none;
+    background-color: #cccccc;
+}
+    </style>
+</head>
+<body>
+<!-- Nav Bar -->
+<nav class="navbar navbar-md navbar-dark bg-dark">
+  <img src="static/Lazuli.png" width="150" height="60">
+    <ul class="nav navbar-right">
+        <li class="nav-item">
+            <a class="nav-link active" href="landing-page.html">Home</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="about.html">About</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Features</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="main.html">Customer Review Interface</a>
+            <a class="dropdown-item" href="repeat-customer.html">Repeat Customer Interface</a>
+          </div>
+        </li>
+        <!--start code dropdown-->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" style="margin-right: 150px;" href="tutorial.html" role="button" aria-haspopup="true" aria-expanded="false">Code</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="tutorial.html">Customer Review ML Model</a>
+            <a class="dropdown-item" href="repeat-cust-tutorial.html">Repeat Customer ML Model</a>
+            <a class="dropdown-item" href="recommender-tutorial.html">Recommender ML Model</a>
+          </div>
+        </li>
+        <!--end code dropdown-->
+      </ul>
+</nav>
+<!-- start title -->
+<div class="title">
+    <div class="row justify-content-md-center">
+        <div class ="col col-lg-auto">
+            <h1><b>Predict Customer Satisfaction using Machine Learning</b></h1>
+        </div>
+    </div>
+</div>
+<!-- end title -->
+<!-- start banner div -->
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class ="col col-lg-auto"></div>
+        <img src="static/machine_learning.jpeg" class="img-fluid" alt="machine learning">
+    </div>
+  </div>
+</div>
+<!-- end banner div-->
+<!-- start content-->
+<!-- part 1 div container-->
+<div class="container">
+  
+    <h2>Part 1: Pre-processing the Data</h2>
+      <p>Before begining to train models we should transform our data in a way that can be fed into a Machine Learning model. 
+        Our most used techniques are:
+      </p>
+  
+      <h4>1.1 Merging All Datasets</h4>
+      <p>[In]:</p>
+    <!-- codebox div-->
+      <div class="codebox">
+        <pre>
+          <code>
+            df_train = df_orders.merge(df_item, on='order_id', how='left')
+            df_train = df_train.merge(df_order_pay, on='order_id', how='outer')
+            df_train = df_train.merge(df_reviews, on='order_id', how='outer')
+            df_train = df_train.merge(df_products, on='product_id', how='outer')
+            df_train = df_train.merge(df_customers, on='customer_id', how='outer')
+            df_train = df_train.merge(df_sellers, on='seller_id', how='outer')
+            df_train = df_train.merge(df_category, on='product_category_name', how='outer')
+            </code>
+        </pre>
+      </div>
+      <br>
+      <h4>1.2 Dealing with missing data</h4>
+        <p>
+          Missing values are tipically represented with the “NaN” or “Null” indicators. 
+          The problem is that most algorithms can’t handle those missing values so we need to take care of them before feeding data to our models. 
+          Once they are identified, there are several ways to deal with them:
+          Eliminating the samples or features with missing values. (we risk to delete relevant information or too many samples)
+          In jupyternotebook we used:
+        </p>
+        <p>[In]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+            df_train = df_train.dropna()
+            </code>
+          </pre>
+        </div>
+        <br>
+      <h4>1.3 Convert Data Type</h4>
+          <p>
+            In order to fit our data into the model, we convert all other non-numerical datatype into numerical datatype(int)
+          </p>
+          <p>[In]:</p>
+          <div class="codebox">
+            <pre>
+              <code>
+            df_train['payment_type'] = df_train['payment_type'].astype(str)
+            print(df_train.dtypes)
+              </code>
+            </pre>
+          </div>
+          <br>
+      <h4>1.4 Handling Caterogical Data</h4>
+            <p>
+              Convert each numerical datatype to binary digits. Each binary digit gets one column. Some info loss but fewer dimensions.
+            </p>
+            <p>[In]:</p>
+          <div class="codebox">
+            <pre>
+              <code>
+                def is_late_func(x):
+                if x>0:
+                    return 1
+                if x<0:
+                    return 2
+                
+                df_train['Is_It_Late'] = df_train['Difference'].apply(is_late_func)
+              </code>
+            </pre>
+          </div>
+          <br>
+      <h4>1.5 Selecting Meaningful Features</h4>
+            <p>
+              One of the main reasons that causes machine learning models to overfit is because of having redundancy in our data, 
+              which makes the model to be too complex for the given training data and unable to generalize well on unseen data.
+              We decide to reduce data’s dimensionality, helping the model to learn its weights apropriately. 
+            </p>
+            <p>[In]:</p>
+          <div class="codebox">
+            <pre>
+              <code>
+                #1=Credit Card, #5=Voucher, #0=Boleto, #2=Debit Card
+                lb_make = LabelEncoder()
+                df_train["Payment_Type"] = lb_make.fit_transform(df_train["payment_type"])
+                df_train["Customer_City"] = lb_make.fit_transform(df_train["customer_city"])
+                df_train["Customer_State"] = lb_make.fit_transform(df_train["customer_state"])
+                df_train["Product_Category_Name"] = lb_make.fit_transform(df_train["product_category_name_english"])
+              </code>
+            </pre>
+          </div>
+            
+        
+      
+    <!-- end part 1 div container-->
+    <!-- part 2 div container-->
+    <br>
+      <h3>Part 2: Prediction Model</h3>
+        <h4>2.1 Selecting Meaningful Features</h4>
+          <p>
+            We trained a RandomForestClassifier on the dataset to predict customer satisfaction which requires 5 features — 
+            <li>
+              Total_Order_Value
+            </li>
+            <li>
+              Product_description_lenght
+            </li>
+            <li>
+              Is_It_Late?
+            </li>
+            <li>
+              Product_photos_qty
+            </li>
+            <li>Payment_Type</li> 
+          </p>
+          <br>
+        <h4>2.2 Training the Model & Prediction Model Result</h4>
+          <p>
+            The model was trained using RandomForestClassifier
+          </p>
+          <p>[In]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+              <b>from</b> sklearn.ensemble <b>import</b> RandomForestClassifier
+              target = df_train["Positive_or_Negative"]
+              target_names = ["negative", "positive"]
+              X_train, X_test, y_train, y_test = train_test_split(data, target, random_state=42)
+              rf2 = RandomForestClassifier(n_estimators=200)
+              rf2 = rf2.fit(X_train, y_train)
+              rf2.score(X_test, y_test)
+              sorted(zip(rf2.feature_importances_, feature_names), reverse=True)
+            </code>
+          </pre>
+        </div>
+        <br>
+        <p>[Out]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+              [(0.5235107273961033, 'Total_Order_Value'),
+              (0.3430993443616737, 'product_description_lenght'),
+              (0.09531997316577735, 'Is_It_Late'),
+              (0.022926017902676243, 'product_photos_qty'),
+              (0.015143937173769306, 'Payment_Type')]
+            </code>
+          </pre>
+        </div>
+        
+    <!-- End part 2 div container-->
+    <!-- part 3 div container-->
+    <br>
+      <h3>Part 3: Connect Model to Web App</h3>
+        <h4>3.1 Save the Model</h4>
+          <p>
+            Using pickle module in pandas, export model into a file to later connect with Flask app
+          </p>
+          <p>[In]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+              <b>import</b> pickle
+              with open('customer_satisfaction.pkl', 'wb') as file:
+              pickle.dump(rf2, file)
+            </code>
+          </pre>
+        </div>
+        <br>
+      <h4>3.2 Flask App Connect</h4>
+      <p>
+        Create app.py to load the model
+      </p>
+      <div class="codebox">
+        <pre>
+          <code>
+            import flask
+            import pickle
+            import pandas as pd
+​
+            <i># Use pickle to load in the pre-trained model</i>
+            with open(f'customer_satisfaction.pkl', 'rb') as f:
+            model = pickle.load(f)
+​
+            <i># Initialise the Flask app</i>
+            app = flask.Flask(__name__, template_folder='templates')
+​
+            <i># Set up the main route</i>
+            @app.route('/', methods=['GET', 'POST'])
+            def main():
+              if flask.request.method == 'GET':
+              # Just render the initial form, to get input
+              return(flask.render_template('main.html'))
+              if flask.request.method == 'POST':
+​
+            <i># Extract the input</i>
+              product_description_lenght = flask.request.form['product_description_lenght']
+              product_photos_qty = flask.request.form['product_photos_qty']
+              Is_It_Late = flask.request.form['Is_It_Late']
+              Payment_Type = flask.request.form['Payment_Type']
+              Total_Order_Value = flask.request.form['Total_Order_Value']
+​
+            <i># Make DataFrame for model</i>
+              input_variables = pd.DataFrame([[product_description_lenght, product_photos_qty, Is_It_Late, 
+                                              Payment_Type,Total_Order_Value]],
+                                              columns=['product_description_lenght', 'product_photos_qty', 'Is_It_Late',
+                                              'Payment_Type', 'Total_Order_Value'],
+                                              dtype=float,
+                                              index=['input'])
+​
+            <i># Get the model's prediction</i>
+              prediction = model.predict(input_variables)[0]
+                  
+            <i># Render the form again, but add in the prediction and remind user of the values they input before</i>
+                return flask.render_template('main.html',
+                original_input={'product_description_lenght':product_description_lenght,
+                                'product_photos_qty':product_photos_qty,
+                                'Is_It_Late':Is_It_Late,
+                                'Payment_Type':Payment_Type,
+                                'Total_Order_Value':Total_Order_Value},
+                                result=prediction,)
+              if __name__ == '__main__':
+                  app.run(debug=True)
+          </code>
+        </pre>
+      </div>
+    <!-- End part 3 div container-->
+      </div>
+</div>
+​
+</body>
+​
+</html>

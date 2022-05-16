@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lazuli - Leverage Your Data</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+      <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Open+Sans+Condensed:ital,wght@1,300&display=swap" rel="stylesheet">
+    <!-- starting style -->
+    <style>
+      .codebox {
+       /* Below are styles for the codebox (not the code itself) */
+       border:1px black;
+       background-color: #EAEBEC;
+       width:900px;
+       overflow:auto;    
+       padding-top:15px;
+       padding-bottom: 1px; 
+   }
+   .codebox code {
+       /* Styles in here affect the text of the codebox */
+       font-size:1.2em;
+       font-family: Courier New Lucida Console;
+       color: black;
+       /* You could also put all sorts of styling here, like different font, color, underline, etc. for the code. */
+   }
+   .title {
+     padding-top: 30px;
+     padding-right: 30px;
+     padding-bottom: 30px;
+     padding-left: 80px;
+   }
+   div.container {
+     padding-top: 30px;
+     padding-right: 100px;
+     padding-bottom: 30px;
+     padding-left: 100px;
+     }
+   body {
+   background-image: none;
+   background-color: #cccccc;
+}
+   </style>
+   <!-- ending style -->
+</head>
+<!-- Nav Bar -->
+<nav class="navbar navbar-md navbar-dark bg-dark">
+  <img src="static/Lazuli.png" width="150" height="60">
+    <ul class="nav navbar-right">
+        <li class="nav-item">
+            <a class="nav-link active" href="landing-page.html">Home</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="about.html">About</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Features</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="main.html">Customer Review Interface</a>
+            <a class="dropdown-item" href="repeat-customer.html">Repeat Customer Interface</a>
+          </div>
+        </li>
+        <!--start code dropdown-->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="margin-right: 150px;" data-toggle="dropdown" href="tutorial.html" role="button" aria-haspopup="true" aria-expanded="false">Code</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="tutorial.html">Customer Review ML Model</a>
+            <a class="dropdown-item" href="repeat-cust-tutorial.html">Repeat Customer ML Model</a>
+            <a class="dropdown-item" href="recommender-tutorial.html">Recommender ML Model</a>
+          </div>
+        </li>
+        <!--end code dropdown-->
+      </ul>
+</nav>
+<!-- start title -->
+<div class="title">
+    <div class="row justify-content-md-center">
+        <div class ="col col-lg-auto">
+            <h1><b>Predicting items most commonly bought together using Machine Learning (Recommendation System) </b></h1>
+        </div>
+    </div>
+</div>
+<!-- end title -->
+<!-- start content-->
+<!-- part 1 div container-->
+<div class="container">
+  
+    <h2>Part 1: Pre-processing the Data</h2>
+      <p>Before begining to train models we should transform our data in a way that can be fed into a Machine Learning model. 
+      </p>
+      <h4>1.1 Import the necessary modules and packages for pre-processing the data and further analysis with machine learning </h4>
+      <p>
+        These are the modules and packages needed for further analysis with machine learning:
+      </p>
+      <div class="codebox">
+        <pre>
+          <code>
+            # Data preprocessing, math and plotting
+            import os
+            import numpy as np 
+            import pandas as pd 
+            from scipy import stats 
+            import matplotlib.pyplot as plt
+            import seaborn as sns 
+            # ML 
+            import sklearn
+            from sklearn.decomposition import TruncatedSVD
+            from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+            from sklearn.neighbors import NearestNeighbors
+            from sklearn.cluster import KMeans
+            from sklearn.metrics import adjusted_rand_score
+            from sklearn.linear_model import LinearRegression
+            from sklearn.model_selection import train_test_split
+            from sklearn.preprocessing import StandardScaler
+            from sklearn.preprocessing import normalize
+            from sklearn.metrics import r2_score, confusion_matrix
+          </code>
+        </pre>
+      </div>
+      <h4>1.2 Read in the Data</h4>
+      <h8>Read in all the data, from the sources that are deemed useful.</h8>
+      <p>[In]:</p>
+    <!-- codebox div-->
+      <div class="codebox">
+        <pre>
+          <code>
+            # all csvs used for analysis are converted into dataframes that will be merged
+            
+            df_item = pd.read_csv("gdrive/My Drive/brazil_ecommerce/olist_order_items_dataset.csv") 
+            df_reviews = pd.read_csv("gdrive/My Drive/brazil_ecommerce/olist_order_reviews_dataset.csv") 
+            df_products = pd.read_csv("gdrive/My Drive/brazil_ecommerce/olist_products_dataset.csv") 
+            df_sellers = pd.read_csv("gdrive/My Drive/brazil_ecommerce/olist_sellers_dataset.csv") 
+            df_order_pay = pd.read_csv("gdrive/My Drive/brazil_ecommerce/olist_order_payments_dataset.csv")
+            df_customers = pd.read_csv("gdrive/My Drive/brazil_ecommerce/olist_customers_dataset.csv") 
+            df_category = pd.read_csv("gdrive/My Drive/brazil_ecommerce/olist_product_category_name_translation.csv") 
+            </code>
+        </pre>
+      </div>
+      <br>
+      <h4>1.3 Merge the Data</h4>
+      <h8>Merge all the dataframes created from individual CSVs, into one concrete and robust dataframe to move forward with. </h8>
+      <p>[In]:</p>
+    <!-- codebox div-->
+      <div class="codebox">
+        <pre>
+          <code>
+            df_train = df_orders.merge(df_item, on='order_id', how='left')
+            df_train = df_train.merge(df_order_pay, on='order_id', how='outer', validate='m:m')
+            df_train = df_train.merge(df_reviews, on='order_id', how='outer')
+            df_train = df_train.merge(df_products, on='product_id', how='outer')
+            df_train = df_train.merge(df_customers, on='customer_id', how='outer')
+            df_train = df_train.merge(df_sellers, on='seller_id', how='outer')
+            df_train = df_train.merge(df_category, on='product_category_name', how='outer')
+            </code>
+        </pre>
+      </div>
+
+      <h4>1.4 Dealing with missing data</h4>
+        <p>
+          Missing values are tipically represented with the “NaN” or “Null” indicators. 
+          The problem is that most algorithms can’t handle those missing values so we need to take care of them before feeding data to our models. 
+          Once they are identified, there are several ways to deal with them:
+          Eliminating the samples or features with missing values. (we risk to delete relevant information or too many samples)
+          In jupyternotebook we used:
+        </p>
+        <p>[In]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+            df_train = df_train.dropna()
+            </code>
+          </pre>
+        </div>
+        
+        
+        <br>
+      
+      <h3>Part 2: Create Model-based Collaborative filtering system</h3>
+        <p>
+          Recommend items to customers based on the purchase history and similarity of ratings provided by other customers. Items bought by the same customers, with the highest ratings, will be recommended to other customers with similar purchase history, weighted by their item rankings.
+          Using a collaborative filtering technique helps predict products that a customer might buy, based on the patterns seen by customer specific preferences. 
+
+        </p>
+
+        <h4>2.1 Utility Matrix</h4>
+          <p>
+            A utility matrix consits of all possible customer-item preferences, using item similarity weighted by the customer's ratings of said items.
+            The data associated with each customer represents how much the customer appreciates the item, in respect to others who purchase the same item.
+          </p>
+          <div class="codebox">
+            <pre>
+              <code>
+                # subset of dataset 'df_train'
+                df_train_subset = df_train.head(10000)
+
+                df_train_util_matrix = df_train_subset.pivot_table(values='review_score', index='customer_id', columns='product_id', fill_value=0)
+                df_train_util_matrix.head()
+              
+                # transpose the matrix
+                X = df_train_util_matrix.T
+                X.head()
+
+                # unique products in subset of data
+                X1 = X
+              </code>
+            </pre>
+          </div>
+          <h4>2.2 Singular Value Decomposiiton (SVD)</h4>
+          <p>This transformer performs linear dimensionality reduction by means of truncated singular value decomposition (SVD). 
+            Unlike PCA, principle component analysis, this estimator does not center the data before computing the singular value decomposition. This means that it can efficiently work with sparse matices.
+                </p>
+                <div class="codebox">
+                  <pre>
+                    <code>
+                SVD = TruncatedSVD(n_components=10)
+                decomposed_matrix = SVD.fit_transform(X)
+                decomposed_matrix.shape
+                    </code>
+                  </pre>
+                </div>
+          <br>
+        <h4>2.3 Correlation Matrix</h4>
+        <p>A correlation matrix is simply a table which displays the correlation coefficients for different variables. 
+          The matrix depicts the correlation between all the possible pairs of values in a table. 
+          It is a powerful tool to summarize a large dataset and to identify and visualize patterns in the given data.
+          </p>
+        <div class="codebox">
+          <pre>
+            <code>
+              # Correlation Matrix
+              correlation_matrix = np.corrcoef(decomposed_matrix)
+              correlation_matrix.shape
+              -> (2971, 2971)
+
+              # Isolating Product ID # 00250175f79f584c14ab5cecd80553cd from the 
+              Correlation Matrix (random selection based on index value[1])
+              X.index[1]
+              -> '00250175f79f584c14ab5cecd80553cd'
+
+              # Index number and product ID purchased by customer 
+              i = '00250175f79f584c14ab5cecd80553cd'
+
+              product_names = list(X.index)
+              product_id = product_names.index(i)
+              product_id
+              -> 1
+
+              # Correlation for all items with the item purchased by this customer based on 
+              items rated by other customers people who bought the same product
+              correlation_product_ID = correlation_matrix[product_id]
+              correlation_product_ID.shape
+              -> (2971,)
+
+              # Recommending the most highly correlated products in sequence with scores of over 0.90
+              Recommend = list(X.index[correlation_product_ID > 0.90])
+
+              # removes the item already bought by the customer 
+              Recommend.remove(i) 
+              Recommend
+
+              Below are the top 10 products to be displayed by the recommendation system to the 
+              above customer based on the purchase history of other customers in the website. 
+              ['0259ef48d9c5f59c3b31147c52db801d',
+              '05eee88d9d208fa34d4246aae4025381',
+              '07e1dae59ffce9e47d0f529361d492f6',
+              '090d6db6ad440d35cef0726b5a8bec14',
+              '0b8d94b0bcf4e22c9bf886c98bb994d3',
+              '0c0caad13e2d2bf4efb9856075ad1120',
+              '1ac5b02a81e28c27713b7229144a773e',
+              '1cd7f362c94c8a3a854103a8da2d8f43',
+              '20531b0644a0719b8d506c4db3c56609',
+              '21fd3b391a97c2fedab9d0efdd183a93',
+              '2804f6c4f96a5c917461534b63faf357',
+              '29781581fb82fe2389560a3a5331d0ee',
+              '2d36fe5f546a2a0d9cf193511d2a916f',
+              '30a47cc354b9607076272300c899dce9',
+              '30d55419015a4d9c2ca68586923d5a9f',
+              '367dd13835e78ce371a3e7ed449a1d26',
+              '36df104745cb6dd332bd1eff627af709',
+              '37933ba010cb5d5f231585d26287bed3',
+              '42e3fe954b8179e5a4fb431d40662419',
+              '49949e69181c88f76527f613550ca6f6',
+              '4d8c2f14df6a1429692e995d787613a5',
+              '507e1658812a4451005d2ff5a09ccd6d',
+              '57e089e3103f5cda6a4ce23b77399bdb',
+              '5a3f2f6e363dcc2277ba8df88f3a078c',
+              '5ccdf90770b6368962f99d5bdccb7ef1',
+              '8a9e6069daf723d19d2f3644f30a0045',
+              '8bbc072e9ad5dfad286bf7965b945217',
+              '902a8b8bb0768e8562edc2d903337812',
+              '928e52a9ad53a294fdcc91bcf59d1751',
+              'b0619e7ec34ce21283851c82f5189caa',
+              'bcdef08f4db7ae67bff7538debd6daf6',
+              'd31224bf90ec7c6f8967f1f365105a35',
+              'd498e8a880bdf3d26e2b9b3e92c4f424',
+              'd59435f889321f310e2e71bdb3bd466a',
+              'd7522f4bc0a993667ec6491b9e1b86e3',
+              'e12f70be6bbe9361e612c973fcf15dcc',
+              'ea4cc93c84021f3d58e6afb54300c82a',
+              'f1d4ce8c6dd66c47bbaa8c6781c2a923',
+              'ffbc83054b3741a8d67fc59d9cf9d42d']
+            </code>
+          </pre>
+        </div>
+        
+    <br>
+      <h3>Part 3: Neuro-linguistic Programming</h3>
+        <h4>3.1 Dataset with product descriptions </h4>
+          <p>
+            Since the previous dataset did not have product descriptions, we used a different dataset to show how NLP can be used for clustering "like-items" based on thier product descriptions.
+          </p>
+          <p>[In]:</p>
+        <div class="codebox">
+          <pre>
+            <code>
+              home_depot_products = pd.read_csv("gdrive/My Drive/home_depot_product_descriptions.csv")
+
+              # drop NA
+              home_depot_products_df = home_depot_products.dropna()
+
+              # subset the data 
+              home_depot_products_set = home_depot_products_df.head(500)
+              home_depot_products_set.iloc[:,1]
+              0      Not only do angles make joints stronger, they ...
+              1      BEHR Premium Textured DECKOVER is an innovativ...
+              2      Classic architecture meets contemporary design...
+              3      The Grape Solar 265-Watt Polycrystalline PV So...
+              4      Update your bathroom with the Delta Vero Singl...
+                             ...                        
+              495    Add an updated look to your transitional decor...
+              496    The BLACK+DECKER EM1700 corded electric lawn m...
+              497    Wilsonart's 48 in. x 96 in. Breccia Nouvelle L...
+              498    The new and improved roundup 2 gal. Multi-Purp...
+              499    Krosswood Doors dress up both the entrance int...
+
+            </code>
+          </pre>
+        </div>
+        <br>
+      <h4>3.2 Feature extraction from the product descriptions</h4>
+      <p>
+        Convert the text in product description into numerical data for analysis/ML
+        <div class="codebox">
+        <pre>
+          <code>
+            vectorizer = TfidfVectorizer(stop_words='english')
+            X1 = vectorizer.fit_transform(home_depot_products_set["product_description"])
+            X1
+          </code>
+        </pre>
+      </div>
+      <h4>3.3 Visualize the product clusters and fit the K-means to the dataset</h4>
+
+        <div class="codebox">
+        <pre>
+          <code>
+            X=X1
+            kmeans = KMeans(n_clusters = 10, init = 'k-means++')
+            y_kmeans = kmeans.fit_predict(X)
+            plt.plot(y_kmeans, ".")
+            plt.show()
+          </code>
+        </pre>
+      </div>
+
+      <h4>3.4 See the top words in each cluster based on the product description</h4>
+      <div class="codebox">
+      <pre>
+        <code>
+          true_k = 10
+
+          model = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1)
+          model.fit(X1)
+
+          print("Top terms per cluster:")
+          order_centroids = model.cluster_centers_.argsort()[:, ::-1]
+          terms = vectorizer.get_feature_names()
+          for i in range(true_k):
+            print("Cluster %d:" % i),
+            for ind in order_centroids[i, :10]:
+              print(' %s' % terms[ind]),
+            print
+            
+            Top terms per cluster:
+            Cluster 0:
+            air
+            power
+            cooling
+            volt
+            unit
+            amp
+            lithium
+            control
+            20
+            protection
+            Cluster 1:
+            ft
+            100
+            vary
+            board
+            rug
+            product
+            painting
+            24
+            painted
+            10
+            Cluster 2:
+            steel
+            capacity
+            brush
+            wheels
+            swivel
+            construction
+            tool
+            lb
+            features
+            lbs
+            Cluster 3:
+            helps
+            insulation
+            snow
+            cover
+            cutting
+            easy
+            metal
+            design
+            free
+            included
+            Cluster 4:
+            oven
+            cycle
+            cooking
+            cu
+            wash
+            control
+            options
+            ft
+            storage
+            drawer
+            Cluster 5:
+            door
+            wood
+            natural
+            proposition
+            nbsp
+            residents
+            california
+            65
+            bamboo
+            concrete
+            Cluster 6:
+            patio
+            collection
+            frame
+            outdoor
+            set
+            dining
+            bronze
+            chairs
+            fabric
+            cushions
+            Cluster 7:
+            lbs
+            light
+            storage
+            wall
+            finish
+            shelves
+            use
+            commercial
+            easy
+            unit
+            Cluster 8:
+            water
+            handle
+            toilet
+            easy
+            tank
+            spray
+            gal
+            head
+            flush
+            heater
+            Cluster 9:
+            installation
+            use
+            36
+            fan
+            tile
+            wood
+            offers
+            home
+            design
+            easy
+
+            Predicting clusters based on key search words
+
+            Predict cluster of "air"
+
+            print("Cluster ID:")
+            Y = vectorizer.transform(["air"])
+            prediction = model.predict(Y)
+            print(prediction)
+            -> Cluster ID:
+              [0]
+
+
+            Predict cluster of "steel"
+
+            print("Cluster ID:")
+            Y = vectorizer.transform(["steel"])
+            prediction = model.predict(Y)
+            print(prediction)
+            -> Cluster ID:
+              [2]
+
+        </code>
+      </pre>
+    </div>
+    <!-- End part 3 div container-->
+      </div>
+</div>
+
+</body>
+
+</html>
